@@ -35,8 +35,8 @@
     <div id="screen-mode" class="screen active">
         <h1>サンレンタン パーティー版</h1>
         <p>1人の出題者の好みを、みんなで当てよう！<br>全3問の合計ポイントを競います。</p>
-        <button class="main-btn" onclick="createRoom()">部屋を作る（出題者）</button>
-        <button class="main-btn sub-btn" onclick="showJoinScreen()">部屋に入る（回答者）</button>
+        <button class="main-btn" id="btn-create-room">部屋を作る（出題者）</button>
+        <button class="main-btn sub-btn" id="btn-show-join">部屋に入る（回答者）</button>
     </div>
 
     <div id="screen-host-wait" class="screen">
@@ -45,14 +45,14 @@
         <div class="room-number" id="display-room-id">----</div>
         <h3>参加メンバー：</h3>
         <div class="member-list" id="host-member-list">まだ誰もいません...</div>
-        <button class="main-btn" id="start-game-btn" disabled onclick="startGame()">全員揃ったのでゲーム開始！</button>
+        <button class="main-btn" id="start-game-btn" disabled>全員揃ったのでゲーム開始！</button>
     </div>
 
     <div id="screen-guest-join" class="screen">
         <h2>部屋に参加する</h2>
         <input type="number" id="input-room-id" class="input-box" placeholder="4桁の部屋番号">
         <input type="text" id="input-guest-name" class="input-box" placeholder="あなたのニックネーム">
-        <button class="main-btn" onclick="joinRoom()">参加する</button>
+        <button class="main-btn" id="btn-join-room">参加する</button>
         <p class="status-text" id="guest-status"></p>
     </div>
 
@@ -68,7 +68,7 @@
         <p>あなたのベスト3を順番に選んでください。</p>
         <div class="odai" id="q-odai"></div>
         <div class="btn-list" id="q-options"></div>
-        <button class="main-btn" id="q-send-btn" disabled onclick="sendHostAnswers()">回答を送信する</button>
+        <button class="main-btn" id="q-send-btn" disabled>回答を送信する</button>
     </div>
 
     <div id="screen-answerer" class="screen">
@@ -80,7 +80,7 @@
             <p>出題者のベスト3を予想して選んでください！</p>
             <div class="odai" id="a-odai"></div>
             <div class="btn-list" id="a-options"></div>
-            <button class="main-btn" id="a-send-btn" disabled onclick="sendGuestAnswers()">予想を送信する</button>
+            <button class="main-btn" id="a-send-btn" disabled>予想を送信する</button>
         </div>
     </div>
 
@@ -99,7 +99,7 @@
         <h3>この問題の獲得ポイント：</h3>
         <div class="result-box" id="round-scores-list"></div>
         
-        <button class="main-btn" id="next-round-btn" style="display:none;" onclick="nextRound()">次の問題へ進む</button>
+        <button class="main-btn" id="next-round-btn" style="display:none;">次の問題へ進む</button>
         <p class="status-text" id="guest-next-wait-text" style="display:none;">出題者が次の問題に進めるのを待っています...</p>
     </div>
 
@@ -107,7 +107,7 @@
         <h1>🏆 最終結果発表 🏆</h1>
         <p>全3問が終了しました！最終ランキングです！</p>
         <div class="result-box" id="final-rankings-list" style="font-size: 18px;"></div>
-        <button class="main-btn" onclick="location.reload()">トップに戻る</button>
+        <button class="main-btn" id="btn-reload">トップに戻る</button>
     </div>
 </div>
 
@@ -129,7 +129,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // お題データベース（何問でも追加可能！）
+    // お題データベース
     const database = [
         { title: "お弁当のおかずで入っていたら一番嬉しいのは？", options: ["から揚げ", "ハンバーグ", "卵焼き", "ウインナー", "エビフライ", "ポテトサラダ", "鮭の塩焼き"] },
         { title: "もし無人島に1つだけ持っていけるなら？", options: ["サバイバルナイフ", "ライター", "寝袋", "釣り竿", "大きなテント", "スマホ（電波なし）", "相棒の犬"] },
@@ -146,14 +146,17 @@
     let isListening = false;
     let currentRoundIndex = 0; 
 
-    window.changeScreen = function(screenId) {
+    function changeScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
     }
-    window.showJoinScreen = function() { changeScreen('screen-guest-join'); }
+
+    function showJoinScreen() { 
+        changeScreen('screen-guest-join'); 
+    }
 
     // 【出題者】部屋作成
-    window.createRoom = function() {
+    function createRoom() {
         myRole = "host";
         roomNum = String(Math.floor(1000 + Math.random() * 9000));
         document.getElementById('display-room-id').innerText = roomNum;
@@ -175,7 +178,7 @@
     }
 
     // 【回答者】部屋参加
-    window.joinRoom = function() {
+    function joinRoom() {
         myRole = "guest";
         roomNum = document.getElementById('input-room-id').value;
         myName = document.getElementById('input-guest-name').value.trim();
@@ -208,7 +211,7 @@
     }
 
     // 【出題者】ゲーム開始！
-    window.startGame = function() {
+    function startGame() {
         update(ref(db, 'rooms/' + roomNum), { status: 'host_selecting' });
     }
 
@@ -236,4 +239,205 @@
                     document.getElementById('q-odai').innerText = currentData.title;
                     renderOptions('q-options', mySelection, 'q-send-btn');
                     changeScreen('screen-questioner');
-                } else
+                } else {
+                    document.getElementById('wait-for-host-msg').style.display = 'block';
+                    document.getElementById('action-for-guest').style.display = 'none';
+                    changeScreen('screen-answerer');
+                }
+            }
+            else if (data.status === 'guest_predicting') {
+                if (myRole === "host") {
+                    showWaitingStatus(data.guests, data.hostSelection);
+                } else {
+                    if (data.guests && data.guests[myName] && data.guests[myName].isSubmitted) {
+                        showWaitingStatus(data.guests, null);
+                    } else {
+                        document.getElementById('wait-for-host-msg').style.display = 'none';
+                        document.getElementById('action-for-guest').style.display = 'block';
+                        document.getElementById('a-odai').innerText = currentData.title;
+                        mySelection = [];
+                        renderOptions('a-options', mySelection, 'a-send-btn');
+                        changeScreen('screen-answerer');
+                    }
+                }
+            }
+            else if (data.status === 'round_result') {
+                showRoundResult(data);
+            }
+            else if (data.status === 'game_over') {
+                showFinalResult(data.guests);
+            }
+        });
+    }
+
+    function updateMemberList(guests) {
+        let html = "";
+        let count = 0;
+        if (guests) {
+            for (let key in guests) {
+                html += `<span class="member-item">👤 ${guests[key].name}</span>`;
+                count++;
+            }
+            document.getElementById('host-member-list').innerHTML = html;
+            document.getElementById('guest-member-list').innerHTML = html;
+        }
+        if (myRole === "host") {
+            document.getElementById('start-game-btn').disabled = (count === 0);
+        }
+    }
+
+    function showWaitingStatus(guests, hostSelection) {
+        changeScreen('screen-round-waiting');
+        let html = "";
+        let allDone = true;
+
+        for (let key in guests) {
+            const g = guests[key];
+            const statusSymbol = g.isSubmitted ? "✅ 完了" : "⏳ 回答中...";
+            html += `<div class="score-row"><span>${g.name}</span><span>${statusSymbol}</span></div>`;
+            if (!g.isSubmitted) allDone = false;
+        }
+        document.getElementById('waiting-member-list').innerHTML = html;
+
+        if (myRole === "host" && allDone && hostSelection) {
+            calculateAllScores(guests, hostSelection);
+        }
+    }
+
+    function renderOptions(containerId, selectionList, buttonId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        currentData.options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = option;
+            const index = selectionList.indexOf(option);
+            if (index !== -1) {
+                btn.classList.add('selected');
+                const badge = document.createElement('span');
+                badge.className = 'badge';
+                badge.innerText = index + 1;
+                btn.appendChild(badge);
+            }
+            btn.onclick = () => {
+                const existingIndex = selectionList.indexOf(option);
+                if (existingIndex !== -1) {
+                    selectionList.splice(existingIndex, 1);
+                } else if (selectionList.length < 3) {
+                    selectionList.push(option);
+                }
+                renderOptions(containerId, selectionList, buttonId);
+                document.getElementById(buttonId).disabled = (selectionList.length !== 3);
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    function sendHostAnswers() {
+        update(ref(db, 'rooms/' + roomNum), {
+            status: 'guest_predicting',
+            hostSelection: mySelection
+        });
+    }
+
+    function sendGuestAnswers() {
+        update(ref(db, `rooms/${roomNum}/guests/${myName}`), {
+            selection: mySelection,
+            isSubmitted: true
+        });
+    }
+
+    // ポイント計算システム
+    function calculateAllScores(guests, hostSelection) {
+        let updates = {};
+        for (let key in guests) {
+            const g = guests[key];
+            const a = g.selection;
+            let pts = 0;
+
+            if (!a) continue;
+
+            if (hostSelection[0] === a[0] && hostSelection[1] === a[1] && hostSelection[2] === a[2]) pts = 6;
+            else if (hostSelection[0] === a[0] && hostSelection[1] === a[1]) pts = 3;
+            else if (hostSelection.includes(a[0]) && hostSelection.includes(a[1]) && hostSelection.includes(a[2])) pts = 4;
+
+            updates[`guests/${key}/roundScore`] = pts;
+            updates[`guests/${key}/totalScore`] = (g.totalScore || 0) + pts;
+            updates[`guests/${key}/isSubmitted`] = false; 
+        }
+        updates['status'] = 'round_result';
+        update(ref(db, 'rooms/' + roomNum), updates);
+    }
+
+    function showRoundResult(data) {
+        changeScreen('screen-result');
+        const h = data.hostSelection;
+        document.getElementById('q-ans-text').innerHTML = `1位: ${h[0]} / 2位: ${h[1]} / 3位: ${h[2]}`;
+
+        let html = "";
+        for (let key in data.guests) {
+            const g = data.guests[key];
+            html += `<div class="score-row">
+                <span>${g.name} (予想: ${g.selection ? g.selection.join('→') : '未提出'})</span>
+                <span style="font-weight:bold;">+${g.roundScore}点 (計 ${g.totalScore}点)</span>
+            </div>`;
+        }
+        document.getElementById('round-scores-list').innerHTML = html;
+
+        if (myRole === "host") {
+            const nextBtn = document.getElementById('next-round-btn');
+            nextBtn.style.display = 'block';
+            nextBtn.innerText = currentRoundIndex >= 2 ? "最終結果発表へ！" : "次の問題へ進む";
+            document.getElementById('guest-next-wait-text').style.display = 'none';
+        } else {
+            document.getElementById('next-round-btn').style.display = 'none';
+            document.getElementById('guest-next-wait-text').style.display = 'block';
+        }
+    }
+
+    // 次のラウンド、または終了への遷移
+    function nextRound() {
+        if (currentRoundIndex >= 2) {
+            update(ref(db, 'rooms/' + roomNum), { status: 'game_over' });
+        } else {
+            update(ref(db, 'rooms/' + roomNum), {
+                status: 'host_selecting',
+                currentRound: currentRoundIndex + 1,
+                hostSelection: ""
+            });
+        }
+    }
+
+    function showFinalResult(guests) {
+        changeScreen('screen-gameover');
+        let arr = [];
+        for (let key in guests) {
+            arr.push(guests[key]);
+        }
+        arr.sort((a, b) => b.totalScore - a.totalScore);
+
+        let html = "";
+        arr.forEach((g, index) => {
+            const rank = index + 1;
+            const rankClass = rank === 1 ? 'rank-1' : '';
+            html += `<div class="score-row ${rankClass}">
+                <span>第 ${rank} 位 : ${g.name}</span>
+                <span style="font-weight:bold;">${g.totalScore} 点</span>
+            </div>`;
+        });
+        document.getElementById('final-rankings-list').innerHTML = html;
+    }
+
+    // 💡【最重要】プログラムの準備が完了した瞬間に、ボタンに機能を紐付ける（タイミング問題を完全回避）
+    document.getElementById('btn-create-room').addEventListener('click', createRoom);
+    document.getElementById('btn-show-join').addEventListener('click', showJoinScreen);
+    document.getElementById('btn-join-room').addEventListener('click', joinRoom);
+    document.getElementById('start-game-btn').addEventListener('click', startGame);
+    document.getElementById('q-send-btn').addEventListener('click', sendHostAnswers);
+    document.getElementById('a-send-btn').addEventListener('click', sendGuestAnswers);
+    document.getElementById('next-round-btn').addEventListener('click', nextRound);
+    document.getElementById('btn-reload').addEventListener('click', () => location.reload());
+
+</script>
+</body>
+</html>
