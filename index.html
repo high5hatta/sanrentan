@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>サンレンタン パーティー版</title>
     <style>
-        /* 全体の背景：かわいいグラデーション */
         body { 
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Segoe UI', sans-serif; 
             background: linear-gradient(135deg, #ffe5ec 0%, #e8f0fe 50%, #eafaf1 100%); 
@@ -18,8 +17,6 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
-
-        /* メインの白いコンテナ：丸みを大きくしてふんわりした影を */
         .container { 
             max-width: 480px; 
             width: 100%; 
@@ -30,8 +27,6 @@
             text-align: center; 
             border: 3px solid #ffffff;
         }
-
-        /* タイトル：かわいいフォントカラーとグラデーションのニュアンス */
         h1 { 
             color: #ff5c8a; 
             font-size: 26px; 
@@ -39,21 +34,8 @@
             margin-bottom: 10px; 
             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
-
-        h2 { 
-            font-size: 18px; 
-            color: #64748b; 
-            margin-bottom: 15px; 
-            line-height: 1.4;
-        }
-
-        p {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.6;
-        }
-
-        /* お題のボックス：角丸を大きく、ふんわりピンク */
+        h2 { font-size: 18px; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
+        p { font-size: 14px; color: #64748b; line-height: 1.6; }
         .odai { 
             background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%); 
             padding: 20px; 
@@ -65,15 +47,7 @@
             color: #ff477e;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
-
-        .btn-list { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            margin-bottom: 25px; 
-        }
-
-        /* 選択肢ボタン：ぷっくり丸くてパステル調のグラデーション、立体感 */
+        .btn-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .option-btn { 
             padding: 14px 20px; 
             font-size: 16px; 
@@ -88,134 +62,52 @@
             box-shadow: 0 4px 0 #e2e8f0;
             transition: all 0.1s ease;
         }
-        .option-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #e2e8f0;
-        }
-
-        /* 選択されたボタン：かわいいマゼンタピンク */
+        .option-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 #e2e8f0; }
         .option-btn.selected { 
             background: linear-gradient(135deg, #ff758f 0%, #ff477e 100%); 
             color: white; 
             border-color: #ff477e;
             box-shadow: 0 4px 0 #c9184a;
         }
-        .option-btn.selected:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #c9184a;
-        }
-
-        /* バッジ：丸いゼリーのようなかわいい白丸 */
+        .option-btn.selected:active { transform: translateY(4px); box-shadow: 0 0px 0 #c9184a; }
         .badge { 
-            position: absolute; 
-            right: 15px; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            background: white; 
-            color: #ff477e; 
-            border-radius: 50%; 
-            width: 26px; 
-            height: 26px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: bold; 
-            font-size: 14px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%); 
+            background: white; color: #ff477e; border-radius: 50%; 
+            width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        /* メインの決定ボタン：しっかり目立つぷっくりネイビー */
         .main-btn { 
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white; 
-            border: none; 
-            padding: 16px 32px; 
-            font-size: 18px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: bold; 
-            margin-top: 10px; 
+            color: white; border: none; padding: 16px 32px; font-size: 18px; border-radius: 50px; 
+            cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; 
             box-shadow: 0 5px 0 #00b4d8, 0 8px 15px rgba(0, 242, 254, 0.3);
             transition: all 0.1s ease;
         }
-        .main-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #00b4d8, 0 3px 10px rgba(0, 242, 254, 0.2);
-        }
-        .main-btn:disabled { 
-            background: #cbd5e1 !important; 
-            box-shadow: 0 5px 0 #94a3b8 !important;
-            cursor: not-allowed; 
-            transform: none !important;
-        }
-
-        /* サブボタン：さわやかなシアン・ミント系 */
+        .main-btn:active { transform: translateY(5px); box-shadow: 0 0px 0 #00b4d8; }
+        .main-btn:disabled { background: #cbd5e1 !important; box-shadow: 0 5px 0 #94a3b8 !important; cursor: not-allowed; transform: none !important; }
         .sub-btn { 
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
             box-shadow: 0 5px 0 #f3a6b4, 0 8px 15px rgba(254, 207, 239, 0.4);
         }
-        .sub-btn:active {
-            box-shadow: 0 0px 0 #f3a6b4;
-        }
-
+        .sub-btn:active { box-shadow: 0 0px 0 #f3a6b4; }
         .screen { display: none; }
         .screen.active { display: block; }
-
-        /* 部屋番号：大きくてポップな数字 */
         .room-number { 
-            font-size: 46px; 
-            font-weight: bold; 
-            color: #ff477e; 
-            letter-spacing: 5px; 
-            margin: 20px 0; 
-            background: #fff0f3; 
-            padding: 15px; 
-            border-radius: 20px; 
-            border: 2px solid #ffccd5;
-            display: inline-block;
-            padding-left: 20px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            font-size: 46px; font-weight: bold; color: #ff477e; letter-spacing: 5px; margin: 20px 0; 
+            background: #fff0f3; padding: 15px; border-radius: 20px; border: 2px solid #ffccd5;
+            display: inline-block; padding-left: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
         }
-
-        /* 入力ボックス：丸みとふんわりフォーカス */
-        .input-box { 
-            width: 85%; 
-            padding: 14px; 
-            font-size: 18px; 
-            text-align: center; 
-            border: 2px solid #cbd5e1; 
-            border-radius: 50px; 
-            margin-bottom: 15px; 
-            outline: none;
-            transition: all 0.2s;
-            color: #4a5568;
-        }
-        .input-box:focus {
-            border-color: #ff758f;
-            box-shadow: 0 0 0 4px rgba(255, 117, 143, 0.15);
-        }
-
+        .input-box { width: 85%; padding: 14px; font-size: 18px; text-align: center; border: 2px solid #cbd5e1; border-radius: 50px; margin-bottom: 15px; outline: none; transition: all 0.2s; color: #4a5568; }
+        .input-box:focus { border-color: #ff758f; box-shadow: 0 0 0 4px rgba(255, 117, 143, 0.15); }
         .status-text { color: #94a3b8; font-style: italic; margin-top: 15px; font-size: 14px; }
-        
-        /* 結果ボックス：淡いグレーピンクの角丸 */
-        .result-box { 
-            text-align: left; 
-            background: #f8fafc; 
-            padding: 18px; 
-            border-radius: 20px; 
-            margin-bottom: 15px; 
-            border: 1px solid #f1f5f9;
-        }
+        .result-box { text-align: left; background: #f8fafc; padding: 18px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #f1f5f9; }
         .result-box h3 { margin-top: 0; color: #64748b; font-size: 15px; margin-bottom: 10px; }
-
-        /* メンバーリスト：丸いタグ風に並ぶ */
         .member-list { background: #f8fafc; padding: 15px; border-radius: 20px; text-align: center; margin: 15px 0; min-height: 50px; border: 1px dashed #cbd5e1; }
         .member-item { display: inline-block; background: white; padding: 6px 14px; border-radius: 50px; margin: 5px; border: 1px solid #e2e8f0; font-size: 14px; font-weight: bold; color: #64748b; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-        
         .score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; font-size: 15px; }
         .score-row:last-child { border-bottom: none; }
         .rank-1 { font-weight: bold; color: #ff477e; background-color: #fff0f3; border-radius: 10px; padding: 4px 8px; margin: 0 -8px; }
+        .notice-box { background-color: #f0fdf4; border: 2px solid #bbf7d0; color: #166534; padding: 12px; border-radius: 16px; font-weight: bold; margin-bottom: 15px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -223,8 +115,8 @@
 <div class="container">
     <div id="screen-mode" class="screen active">
         <h1>サンレンタン 🍬</h1>
-        <h2>1人の出題者の好みをみんなで当てよう！<br>全3問のポイント勝負！</h2>
-        <button class="main-btn" id="btn-create-room">部屋を作る（出題者）</button>
+        <h2>30問からランダムに3問をピックアップ！<br>お題は全員共通、1問ごとに出題者を交代してね！</h2>
+        <button class="main-btn" id="btn-create-room">部屋を作る（最初の出題者）</button>
         <button class="main-btn sub-btn" id="btn-show-join">部屋に入る（回答者）</button>
     </div>
 
@@ -253,17 +145,18 @@
     </div>
 
     <div id="screen-questioner" class="screen">
-        <h2>出題者の番 🔮（第 <span class="current-round-txt">1</span> 問）</h2>
-        <p>あなたのベスト3を順番に選んでね！</p>
+        <h2>出題者の番 🔮（第 <span class="current-round-txt">1</span> 問 / 全3問）</h2>
+        <div class="notice-box">📢 あなたが今の「お題」の出題者です！</div>
         <div class="odai" id="q-odai"></div>
         <div class="btn-list" id="q-options"></div>
         <button class="main-btn" id="q-send-btn" disabled>回答を送信する</button>
     </div>
 
     <div id="screen-answerer" class="screen">
-        <h2>回答者の番 🕵️‍♀️（第 <span class="current-round-txt">1</span> 問）</h2>
+        <h2>回答者の番 🕵️‍♀️（第 <span class="current-round-txt">1</span> 問 / 全3問）</h2>
         <div id="wait-for-host-msg">
-            <p class="status-text">出題者が考え中だよ。しばらくお待ちください...</p>
+            <div class="odai" id="wait-odai-title">お題</div>
+            <p class="status-text" style="color:#ff5c8a; font-weight:bold; font-size:16px;">⚡ 出題者が考え中だよ！誰が選ばれそうか予想して待っててね！</p>
         </div>
         <div id="action-for-guest" style="display:none;">
             <p>出題者のベスト3を予想して選んでね！</p>
@@ -281,20 +174,21 @@
 
     <div id="screen-result" class="screen">
         <h2>第 <span class="current-round-txt">1</span> 問 結果発表 🎉</h2>
+        <div class="notice-box" id="next-host-notice">🔄 次の問題は、出題者を別の人に交代してね！</div>
         <div class="result-box">
-            <h3>🎯 出題者のホンネ</h3>
+            <h3>🎯 今回の出題者のホンネ</h3>
             <p id="q-ans-text" style="font-weight: bold; color: #ff477e; font-size: 16px; margin: 0;"></p>
         </div>
         <h3>🏅 この問題の獲得ポイント 🏅</h3>
         <div class="result-box" id="round-scores-list"></div>
         
-        <button class="main-btn" id="next-round-btn" style="display:none;">次の問題へ進む</button>
-        <p class="status-text" id="guest-next-wait-text" style="display:none;">出題者が次の問題に進めるのを待っています...</p>
+        <button class="main-btn" id="next-round-btn" style="display:none;">次の問題へ進む ➔</button>
+        <p class="status-text" id="guest-next-wait-text" style="display:none;">最初の親が次の問題に進めるのを待っています...</p>
     </div>
 
     <div id="screen-gameover" class="screen">
         <h1>🏆 最終結果発表 🏆</h1>
-        <h2>全3問が終了しました！<br>いちばん価値観が合っていたのは誰かな？</h2>
+        <h2>厳選された3問が終了しました！<br>いちばん価値観が合っていたのは誰かな？</h2>
         <div class="result-box" id="final-rankings-list" style="font-size: 18px;"></div>
         <button class="main-btn" id="btn-reload">トップに戻る</button>
     </div>
@@ -304,18 +198,43 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // 💡 外部ファイル（config.js）から自動で設定を読み込みます
     import { firebaseConfig } from "./config.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    // 📚 圧倒的ボリュームアップ！厳選された全30問のデータベース
     const database = [
         { title: "お弁当のおかずで入っていたら一番嬉しいのは？", options: ["から揚げ", "ハンバーグ", "卵焼き", "ウインナー", "エビフライ", "ポテトサラダ", "鮭の塩焼き"] },
         { title: "もし無人島に1つだけ持っていけるなら？", options: ["サバイバルナイフ", "ライター", "寝袋", "釣り竿", "大きなテント", "スマホ（電波なし）", "相棒の犬"] },
         { title: "タイムマシンがあったら一番行きたい時代は？", options: ["恐竜の時代", "江戸時代", "戦国時代", "昭和レトロ", "100年後の未来", "1000年後の未来", "自分の子供時代"] },
         { title: "一番好きなラーメンの味は？", options: ["醤油ラーメン", "味噌ラーメン", "塩ラーメン", "豚骨ラーメン", "家系ラーメン", "担々麺", "つけ麺"] },
-        { title: "映画館で食べるならどれ？", options: ["ポップコーン塩", "ポップコーンキャラメル", "ホットドッグ", "フライドポテト", "チュロス", "アイスクリーム", "何も食べない"] }
+        { title: "映画館で食べるならどれ？", options: ["ポップコーン塩", "ポップコーンキャラメル", "ホットドッグ", "フライドポテト", "チュロス", "アイスクリーム", "何も食べない"] },
+        { title: "一生、これしか食べられないとしたらどれにする？", options: ["焼肉", "お寿司", "ラーメン", "カレーライス", "白いごはんと味噌汁", "ハンバーガー", "高級スイーツ"] },
+        { title: "超能力が1つだけ手に入るならどれが良い？", options: ["空を飛ぶ能力", "透明人間になる能力", "人の心が読める能力", "時間を5秒だけ戻す能力", "瞬間移動できる能力", "動物と話せる能力", "絶対に病気にならない能力"] },
+        { title: "朝起きたら突然、何になっていたら一番マシ？", options: ["猫", "大型犬", "鳥", "深海の魚", "競走馬", "ライオン", "今のまま（ただの遅刻）"] },
+        { title: "一番ストレス解消になることはどれ？", options: ["とにかく寝る", "美味しいものをドカ食い", "カラオケで大声を出す", "旅行に出かける", "買い物をしまくる", "サウナや温泉で汗を流す", "部屋を大掃除する"] },
+        { title: "宝くじで3億円当たったら、まず最初にやりたいことは？", options: ["会社や学校を辞める", "高級車や家を買う", "世界一周旅行に行く", "全額そのまま貯金する", "親や家族にプレゼントする", "美味しい高級料理を食べに行く", "投資に回す"] },
+        { title: "恋人や親友を選ぶとき、一番重視するポイントは？", options: ["笑いのツボが同じか", "食の好みが合うか", "顔や見た目の好み", "経済力やステータス", "趣味や価値観の一致", "優しさと気遣い", "お互い干渉しない距離感"] },
+        { title: "マクドナルドのサイドメニュー、ポテト以外ならどれ？", options: ["チキンマックナゲット", "サイドサラダ", "シャカチキ", "えだまめコーン", "ヨーグルト", "ホットアップルパイ", "何も頼まない"] },
+        { title: "明日世界が滅びるとしたら、最後に食べたいものは？", options: ["お母さんの手料理", "最高級の贅沢ディナー", "いつものお気に入りジャンクフード", "大好物のスイーツ山盛り", "炊きたてのお米とお味噌汁", "大好物の高級肉ステーキ", "喉を通らないので何もいらない"] },
+        { title: "自分が前世でなっていそうなのはどれ？", options: ["由緒正しき貴族・王族", "勇敢な戦国武将・騎士", "自然を愛する旅人・吟遊詩人", "大富豪の豪商", "どこかの可愛いペット", "歴史に残る偉大な芸術家", "ごく普通の一般市民"] },
+        { title: "人生で一番「お金をかけて良かった」と思う趣味は？", options: ["旅行・アウトドア", "ゲーム・アニメ・漫画", "音楽ライブ・映画鑑賞", "美味しいお店での食べ歩き", "ファッション・コスメ", "美容・筋トレ・サウナ", "車・バイク・ガジェット"] },
+        { title: "1日だけ別の職業を体験できるならどれ？", options: ["大人気YouTuber・配信者", "世界的に有名なロックスター", "敏腕の天才探偵・弁護士", "宇宙飛行士", "プロの料理人・パティシエ", "大ヒット作を生み出す映画監督", "のんびり暮らす個人書店の店主"] },
+        { title: "家の中で、一番落ち着くお気に入りの場所はどこ？", options: ["ふかふかのベッドの上", "リビングのソファの上", "お風呂の中", "自分のデスク・作業スペース", "トイレの中", "ベランダやお庭", "キッチン（料理中など）"] },
+        { title: "ドラえもんのひみつ道具、1つだけ一生貰えるなら？", options: ["どこでもドア", "タケコプター", "タイムふろしき", "もしもボックス", "アンキパン", "ほん訳コンニャク", "四次元ポケット（中身空っぽ）"] },
+        { title: "初対面の人と話すとき、一番最初に見る・気になる部分は？", options: ["全体の雰囲気・清潔感", "目や表情の明るさ", "声のトーンや話し方", "服装や靴のセンス", "髪型やメイク", "姿勢や立ち振る舞い", "使っているスマホや持ち物"] },
+        { title: "自分が一番「ズボラ（めんどくさがり）だな」と思う瞬間は？", options: ["服を脱ぎっぱなしにする", "靴下が丸まったまま洗濯に回す", "部屋の掃除を限界までサボる", "連絡の返信を既読のまま放置する", "ご飯を全部ウーバーか惣菜にする", "休日は一歩もベッドから出ない", "お風呂に入るのをギリギリまで粘る"] },
+        { title: "デスゲームに参加させられた！自分の生存戦略はどれ？", options: ["圧倒的武力で無双する", "頭脳を駆使して心理戦で勝つ", "強い人にペコペコして寄生する", "誰とも関わらずに隠れ続ける", "みんなと協力して奇跡を起こす", "ゲームマスターの裏をかく", "諦めて最初のステージで脱落する"] },
+        { title: "旅行に行くとき、一番楽しいと感じる瞬間は？", options: ["数日前から計画を立てている時", "移動中の新幹線や飛行機の中", "ホテルの部屋にチェックインした瞬間", "ご当地の美味しい名物を食べている時", "有名な観光地を巡っている時", "お土産を選んで買っている時", "家に帰ってきて布団に倒れ込んだ時"] },
+        { title: "コンビニでつい「予定にないのに」買っちゃうものは？", options: ["レジ横のチキンや肉まん", "新作のスイーツ・アイス", "新作のポテトチップス・スナック", "限定パッケージの缶コーヒー・お茶", "1本買うともう1本貰える系のジュース", "漫画や雑誌", "ガムやグミ、ミントタブレット"] },
+        { title: "自分がゾンビ映画の世界に入ったら、どこに立てこもる？", options: ["食料が豊富な大型ショッピングモール", "要塞のような頑丈な警察署・自衛隊基地", "ゾンビが来なさそうな大自然の山奥", "鍵をガチガチに閉めた自分の部屋", "海の上に浮かぶ豪華客船", "学校の屋上", "立てこもらずに車で走り続ける"] },
+        { title: "「大人になったなぁ」としみじみ感じる瞬間は？", options: ["お年玉をあげる側になった時", "ブラックコーヒーやビールが美味い時", "量より質の高い美味しいご飯を選ぶ時", "徹夜すると次の日丸ごと潰れる時", "税金や保険の話が理解できる時", "子供の頃に高かったおもちゃを大人買いした時", "実家の親の健康が気になり出した時"] },
+        { title: "遊園地・テーマパークで一番最初に行きたいジャンルは？", options: ["絶叫マウンテン・ジェットコースター", "お化け屋敷・ホラーハウス", "のんびり乗れる観覧車やメリーゴーランド", "プロジェクションマッピングなどの映像アトラクション", "可愛いキャラクターのパレード鑑賞", "パーク限定のかわいいフードの食べ歩き", "限定グッズショップでお買い物"] },
+        { title: "友達とカラオケに行ったら、まず最初に何をする？", options: ["とりあえず1曲目に定番の盛り上がる曲を入れる", "ドリンクバーを速攻で取りに行く", "他の人が歌うのを手拍子で盛り上げる", "デンモク（選曲画面）をじっくり眺める", "とりあえずウケ狙いのネタ曲を入れる", "誰も知らないマニアックな曲で様子見する", "緊張するので絶対に前半は歌わない"] },
+        { title: "夏休みの宿題、学生時代のあなたはどのタイプだった？", options: ["最初の1週間で全て終わらせる超計画派", "毎日コツコツ均等に進める優等生派", "お盆休みあたりから焦って始める普通派", "最後の3日間で徹夜して泣きながらやるギリギリ派", "始業式の朝に友達のノートを写すちゃっかり派", "そもそも提出を諦めて怒られるまで出さない居直り派", "自由研究だけガチでやるこだわり派"] },
+        { title: "これがあったらQOL（生活の質）が爆上がりする家電は？", options: ["全自動ドラム式洗濯乾燥機", "お掃除ロボット（ルンバなど）", "全自動食洗機", "最新の超大型スマートテレビ", "最高級の多機能電子レンジ", "髪がサラサラになる高級ドライヤー", "挽きたてが飲める全自動コーヒーメーカー"] },
+        { title: "もし自分が歴史上の有名な偉人になれるなら誰？", options: ["誰もが知る偉大な天才「織田信長」", "天才発明家・芸術家「レオナルド・ダ・ヴィンチ」", "天下統一を成し遂げたカリスマ「アレクサンダー大王」", "悲劇の絶世の美女「マリー・アントワネット」", "幕末を駆け抜けた風雲児「坂本龍馬」", "相対性理論を発見した物理学者「アインシュタイン」", "教科書に1行だけ載っているマイナーな王様"] }
     ];
 
     let myRole = ""; 
@@ -339,6 +258,7 @@
         document.getElementById('display-room-id').innerText = roomNum;
         changeScreen('screen-host-wait');
 
+        // 💡 改善点：30問ある中から、完全にランダムに「3つの数字」だけを選び出す配列を作る！
         let indices = [];
         while(indices.length < 3) {
             let r = Math.floor(Math.random() * database.length);
@@ -414,6 +334,7 @@
                     renderOptions('q-options', mySelection, 'q-send-btn');
                     changeScreen('screen-questioner');
                 } else {
+                    document.getElementById('wait-odai-title').innerText = currentData.title;
                     document.getElementById('wait-for-host-msg').style.display = 'block';
                     document.getElementById('action-for-guest').style.display = 'none';
                     changeScreen('screen-answerer');
@@ -568,6 +489,7 @@
         }
     }
 
+    // 💡 3問終わる（0, 1, 2番目）とゲームオーバー
     function nextRound() {
         if (currentRoundIndex >= 2) {
             update(ref(db, 'rooms/' + roomNum), { status: 'game_over' });
@@ -601,7 +523,6 @@
         document.getElementById('final-rankings-list').innerHTML = html;
     }
 
-    // イベント紐付け
     document.getElementById('btn-create-room').addEventListener('click', createRoom);
     document.getElementById('btn-show-join').addEventListener('click', showJoinScreen);
     document.getElementById('btn-join-room').addEventListener('click', joinRoom);
@@ -614,3 +535,6 @@
 </script>
 </body>
 </html>
+
+
+        
